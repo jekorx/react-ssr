@@ -3,6 +3,7 @@ import axios from 'axios'
 
 /* eslint-disable */
 export default class TestApi extends React.Component {
+
   constructor () {
     super()
     this.login = this.login.bind(this)
