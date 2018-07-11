@@ -4,7 +4,7 @@ import {
   action
 } from 'mobx'
 
-export class AppState {
+export default class AppState {
   @observable count = 0
 
   @observable name = 'jekorx'
@@ -20,6 +20,11 @@ export class AppState {
   @action changeName (name) {
     this.name = name
   }
-}
 
-export default new AppState()
+  toJson () {
+    return {
+      count: this.count,
+      name: this.name
+    }
+  }
+}
