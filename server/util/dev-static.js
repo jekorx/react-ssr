@@ -6,7 +6,7 @@ const ReactDomServer = require('react-dom/server')
 const serialize = require('serialize-javascript')
 const proxy = require('http-proxy-middleware')
 const ejs = require('ejs')
-const asyncBootstrap = require('react-async-bootstrapper').default
+const bootstrap = require('react-async-bootstrapper')
 const serverConfig = require('../../build/webpack.config.server')
 
 const getTemplate = () => {
@@ -39,6 +39,7 @@ serverCompiler.watch({}, (err, stats) => {
   m._compile(bundle, 'server-entry.js')
   serverBundle = m.exports.default
   createStoreMap = m.exports.createStoreMap
+  console.log('Load entry file success.')
 })
 
 const getStoreState = stores => {
@@ -54,12 +55,11 @@ module.exports = function (app) {
   }))
   app.get('*', function (req, res) {
     getTemplate().then(template => {
-      console.log(asyncBootstrap, serverBundle, createStoreMap)
       const routerContext = {}
       const stores = createStoreMap()
       const app = serverBundle(stores, routerContext, req.url)
 
-      asyncBootstrap(app).then(() => {
+      bootstrap(app).then(() => {
         if (routerContext.url) {
           res.status(302).setHeader('Location', routerContext.url)
           res.end()
