@@ -9,9 +9,10 @@ import AppState from './store/app-state'
 const root = document.getElementById('root')
 const initialState = window.__INITIAL__STATE__ || {} // eslint-disable-line
 const render = (Component) => {
+  console.log(initialState)
   ReactDOM.hydrate(
     <AppContainer>
-      <Provider appState={new AppState(initialState)}>
+      <Provider appState={new AppState(initialState.appState)}>
         <BrowserRouter>
           <Component />
         </BrowserRouter>

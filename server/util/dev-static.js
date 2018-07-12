@@ -6,7 +6,7 @@ const ReactDomServer = require('react-dom/server')
 const serialize = require('serialize-javascript')
 const proxy = require('http-proxy-middleware')
 const ejs = require('ejs')
-const bootstrap = require('react-async-bootstrapper')
+const asyncBootstrap = require('react-async-bootstrapper')
 const serverConfig = require('../../build/webpack.config.server')
 
 const getTemplate = () => {
@@ -59,7 +59,7 @@ module.exports = function (app) {
       const stores = createStoreMap()
       const app = serverBundle(stores, routerContext, req.url)
 
-      bootstrap(app).then(() => {
+      asyncBootstrap(app).then(() => {
         if (routerContext.url) {
           res.status(302).setHeader('Location', routerContext.url)
           res.end()

@@ -18,7 +18,7 @@ export default class TopicList extends React.Component {
     // TODO
   }
 
-  asyncBootstrap () {
+  bootstrap () {
     return new Promise((resolve) => {
       setTimeout(() => {
         this.props.appState.count = 30
