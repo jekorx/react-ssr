@@ -5,13 +5,17 @@ import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader' // eslint-disable-line
 import App from './views/App'
 import AppState from './store/app-state'
+import Products from './store/products'
 
 const root = document.getElementById('root')
 const initialState = window.__INITIAL__STATE__ || {} // eslint-disable-line
 const render = (Component) => {
   ReactDOM.hydrate(
     <AppContainer>
-      <Provider appState={new AppState(initialState.appState)}>
+      <Provider
+        appState={new AppState(initialState.appState || {})}
+        products={new Products(initialState.products || {})}
+      >
         <BrowserRouter>
           <Component />
         </BrowserRouter>

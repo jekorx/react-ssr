@@ -21,7 +21,7 @@ export default class TopicList extends React.Component {
   bootstrap () {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.props.appState.count = 30
+        this.props.appState.changeName('1123')
         resolve(true)
       }, 1000)
     })

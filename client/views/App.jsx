@@ -9,10 +9,9 @@ export default class App extends React.Component {
     return [
       <div key="links">
         <Link to="/">首页</Link>
-        <br />
         <Link to="/detail">详情</Link>
-        <br />
         <Link to="/test">test</Link>
+        <Link to="/demo">demo</Link>
       </div>,
       <Routes key="routes" />
     ]
