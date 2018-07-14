@@ -57,7 +57,7 @@ export default class FilterableProductTable extends React.Component {
       setTimeout(() => {
         this.props.products.setProducts(productsData)
         resolve(true)
-      }, 1000)
+      }, 3000)
     })
   }
 
@@ -70,7 +70,7 @@ export default class FilterableProductTable extends React.Component {
           onFilterTextInput={this.onFilterTextInput}
           onStockChange={this.onStockChange}
         />
-        <Table products={this.props.products.products} />
+        <Table products={this.props.products.filter} />
       </div>
     )
   }

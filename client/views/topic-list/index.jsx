@@ -14,10 +14,6 @@ export default class TopicList extends React.Component {
     this.changeName = this.changeName.bind(this)
   }
 
-  componentDidMount () {
-    // TODO
-  }
-
   bootstrap () {
     return new Promise((resolve) => {
       setTimeout(() => {

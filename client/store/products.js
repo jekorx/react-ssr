@@ -6,24 +6,24 @@ import {
 
 export default class Products {
   constructor ({ products, word, stock } = { products: '', word: '', stock: false }) {
-    this.products = products ? JSON.parse(products) : []
-    this.keyword = word
-    this.isStock = stock
+    this.data = products ? JSON.parse(products) : []
+    this.keyword = word || ''
+    this.isStock = stock || false
   }
 
-  @observable products
+  @observable data
 
   @observable keyword
 
   @observable isStock
 
   @computed get filter () {
-    return this.products.map((p) => {
-      const isInclude = p.category.includes(this.keyword)
-      if (this.isStock) {
-        return p.stocked && isInclude
+    return this.data.filter((p) => {
+      if (p.name.includes(this.keyword)) {
+        if (this.isStock) return p.stocked
+        return true
       }
-      return isInclude
+      return false
     })
   }
 
@@ -36,14 +36,14 @@ export default class Products {
   }
 
   @action setProducts (products) {
-    this.products = products
+    this.data = products
   }
 
   toJson () {
     return {
-      products: JSON.stringify(this.products),
+      products: JSON.stringify(this.data),
       keyword: this.keyword,
-      isStock: this.isStock
+      stock: this.isStock
     }
   }
 }
