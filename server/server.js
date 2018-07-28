@@ -3,6 +3,8 @@ const express = require('express')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const fs = require('fs')
+const serverRender = require('./util/server-render')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -27,19 +29,21 @@ app.use('/api/user', require('./util/handle-login'))
 app.use('/api', require('./util/proxy'))
 
 if (!isDev) {
-  const ReactDomServer = require('react-dom/server')
-  const fs = require('fs')
-  const serverEntry = require('../dist/server-entry').default
-  const template = fs.readFileSync(resolve('dist/index.html'), 'UTF-8')
+  const serverEntry = require('../dist/server-entry')
+  const template = fs.readFileSync(resolve('dist/server.ejs'), 'UTF-8')
   app.use('/public', express.static(resolve('dist')))
-  app.get('*', function (req, res) {
-    const appString = ReactDomServer.renderToString(serverEntry)
-    res.send(template.replace('<!-- app -->', appString))
+  app.get('*', function (req, res, next) {
+    serverRender(serverEntry, template, req, res).catch(next)
   })
 } else {
   const devStatic = require('./util/dev-static')
   devStatic(app)
 }
+
+app.use(function (error, req, res, next) {
+  console.log(error)
+  res.status(500).send(error)
+})
 
 const server = app.listen(3333, function () {
   let host = server.address().address
